@@ -1,5 +1,5 @@
 """Entry point for running as `python -m secscan`."""
 
-from secscan.cli import main
+from secscan.cli import app
 
-main()
+app()

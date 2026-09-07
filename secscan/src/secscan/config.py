@@ -30,6 +30,7 @@ class ScanConfig(BaseModel):
             "__pycache__/", ".cache/", ".pyc",
             ".pytest_cache/", ".vscode/", ".idea/",
             ".secscanignore", "pyproject.toml",
+            "/tests/", "*.test.py", "*.spec.ts", "*_test.go",
         ],
         description="File/directory patterns to ignore"
     )

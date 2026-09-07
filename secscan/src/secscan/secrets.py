@@ -1,5 +1,6 @@
 """Secret detection engine — scans files for secret patterns."""
 
+import fnmatch
 import re
 from pathlib import Path
 from typing import Optional
@@ -33,9 +34,19 @@ def _redact(match: str) -> str:
 
 
 def _should_skip(path: Path, ignore_patterns: list[str]) -> bool:
-    """Check if a path should be skipped based on ignore patterns."""
+    """Check if a path should be skipped based on ignore patterns.
+
+    Plain patterns match as a substring of the full path (e.g. ".git/").
+    Patterns containing glob metacharacters (*, ?, [) are matched against
+    the filename and the full path with fnmatch (e.g. "*.test.py").
+    """
+    path_str = str(path)
+    name = path.name
     for pattern in ignore_patterns:
-        if pattern in str(path):
+        if any(c in pattern for c in "*?["):
+            if fnmatch.fnmatch(name, pattern) or fnmatch.fnmatch(path_str, pattern):
+                return True
+        elif pattern in path_str:
             return True
     return False
 
