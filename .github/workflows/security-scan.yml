@@ -1,0 +1,42 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install secscan
+        run: pip install -e secscan/
+
+      - name: Run security scan
+        id: scan
+        run: |
+          secscan scan . --json --json-file report.json
+        continue-on-error: true
+
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: secscan-report
+          path: report.json
+
+      - name: Fail on critical issues
+        run: |
+          status=$(jq -r '.status' report.json)
+          echo "Scan status: $status"
+          if [ "$status" = "critical" ]; then
+            echo "::error::Critical security issues found"
+            exit 1
+          fi
