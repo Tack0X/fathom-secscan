@@ -1,0 +1,19 @@
+[project]
+name = "secscan"
+version = "0.1.0"
+description = "Multi-language security scanner CLI"
+requires-python = ">=3.11"
+dependencies = [
+    "typer>=0.15.0",
+    "pydantic>=2.10",
+    "pyyaml>=6.0",
+    "rich>=13.0",
+    "toml>=0.10",
+]
+
+[project.scripts]
+secscan = "secscan.cli:app"
+
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"

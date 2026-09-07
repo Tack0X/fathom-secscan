@@ -1,0 +1,2 @@
+# Self-scan: don't scan our own config (regex patterns will false-positive)
+**/src/secscan/config.py

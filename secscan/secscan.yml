@@ -1,0 +1,53 @@
+# secscan.yml — Default configuration
+
+# Paths to scan (relative to repo root)
+paths:
+  - "."
+
+# File extensions to include
+extensions:
+  - ".py"
+  - ".go"
+  - ".rs"
+  - ".ts"
+  - ".js"
+  - ".yml"
+  - ".yaml"
+  - ".toml"
+  - ".json"
+  - ".env"
+  - ".sh"
+  - ".conf"
+
+# Patterns to ignore (directory/path substrings)
+ignore_patterns:
+  - ".git/"
+  - "venv/"
+  - ".venv/"
+  - "node_modules/"
+  - "__pycache__/"
+  - ".cache/"
+  - ".pyc"
+  - ".pytest_cache/"
+  - ".vscode/"
+  - ".idea/"
+  - ".secscanignore"
+  - "pyproject.toml"
+  # Skip test files (they contain intentional fake secrets for testing)
+  - "/tests/"
+  - "*.test.py"
+  - "*.spec.ts"
+  - "*_test.go"
+
+# Minimum severity to report
+severity_threshold: "high"
+
+# Max file size to scan (KB)
+max_file_size_kb: 1024
+
+# Custom secret patterns (optional — uses built-in patterns by default)
+# secrets_patterns:
+#   - name: "My Custom Pattern"
+#     regex: "MY_PATTERN_[A-Z0-9]+"
+#     severity: "high"
+#     description: "My custom secret pattern"
